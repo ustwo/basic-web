@@ -73,7 +73,7 @@ class UIToggle extends HTMLElement {
         .track {
           position: absolute;
           inset: 0;
-          background: var(--color-border, #d7dbe0);
+          background: var(--color-border);
           border-radius: 999px;
           transition: background 0.15s ease;
         }
@@ -83,22 +83,22 @@ class UIToggle extends HTMLElement {
           left: 2px;
           width: 1rem;
           height: 1rem;
-          background: #fff;
+          background: var(--color-bg);
           border-radius: 50%;
           transition: transform 0.15s ease;
         }
         input:checked ~ .track {
-          background: var(--color-primary, #2f6fed);
+          background: var(--color-primary);
         }
         input:checked ~ .thumb {
           transform: translateX(1rem);
         }
         input:focus-visible ~ .track {
-          outline: 2px solid var(--color-focus, #2f6fed);
+          outline: 2px solid var(--color-focus);
           outline-offset: 2px;
         }
         label {
-          color: var(--color-text, #1a1d21);
+          color: var(--color-text);
           font-size: 0.95rem;
         }
       </style>

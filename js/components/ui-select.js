@@ -57,18 +57,18 @@ class UISelect extends HTMLElement {
         }
         label {
           font-size: 0.85rem;
-          color: var(--color-text-muted, #5b6270);
+          color: var(--color-text-muted);
         }
         select {
           font: inherit;
           padding: var(--spacing-2, 0.5rem);
           border-radius: var(--radius, 6px);
-          border: 1px solid var(--color-border, #d7dbe0);
-          color: var(--color-text, #1a1d21);
-          background: var(--color-bg, #fff);
+          border: 1px solid var(--color-border);
+          color: var(--color-text);
+          background: var(--color-bg);
         }
         select:focus-visible {
-          outline: 2px solid var(--color-focus, #2f6fed);
+          outline: 2px solid var(--color-focus);
           outline-offset: 1px;
         }
       </style>

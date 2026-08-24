@@ -59,10 +59,10 @@ class UICheckbox extends HTMLElement {
         input {
           width: 1.1rem;
           height: 1.1rem;
-          accent-color: var(--color-primary, #2f6fed);
+          accent-color: var(--color-primary);
         }
         label {
-          color: var(--color-text, #1a1d21);
+          color: var(--color-text);
           font-size: 0.95rem;
         }
       </style>

@@ -27,9 +27,12 @@ Then open **http://localhost:4173**. Any other static file server (`npx serve .`
 
 ```
 index.html              Landing page markup
+tokens/
+  colors.json           The single source of truth for all color values
 css/
-  styles.css            Design tokens (CSS custom properties) + page layout
+  styles.css            Spacing/radius/font tokens + page layout (no colors)
 js/
+  tokens.js              Fetches tokens/colors.json, applies --color-* on :root
   main.js                Registers components, wires up the live demo
   components/
     ui-button.js
@@ -73,12 +76,25 @@ document.querySelector("ui-textfield").addEventListener("input", (e) => {
 
 ### Theming
 
-Each component reads its colors, spacing and border radius from CSS custom properties defined on `:root` in [`css/styles.css`](css/styles.css). Custom properties pierce the Shadow DOM boundary, so overriding them re-themes every component without touching component code:
+Every component reads its colors, spacing and border radius from CSS custom properties on `:root`. Custom properties pierce the Shadow DOM boundary, so changing the source once re-themes every component without touching component code.
+
+**Colors** live only in [`tokens/colors.json`](tokens/colors.json) — there are no color values anywhere else in the project (no fallbacks in CSS, no fallbacks in component styles). [`js/tokens.js`](js/tokens.js) fetches that file on load and sets each `--color-*` property on `:root`:
+
+```json
+{
+  "color": {
+    "primary": "#7c3aed",
+    "primary-hover": "#6d28d9"
+  }
+}
+```
+
+To retheme colors, edit `tokens/colors.json` only. This is also the file an automated Figma → repo token sync would write to.
+
+**Spacing, radius and font** are plain CSS custom properties in [`css/styles.css`](css/styles.css):
 
 ```css
 :root {
-  --color-primary: #7c3aed;
-  --color-primary-hover: #6d28d9;
   --radius: 10px;
 }
 ```

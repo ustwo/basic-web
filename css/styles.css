@@ -1,14 +1,7 @@
-/* ---- Design tokens (also inherited by Web Component shadow DOMs) ---- */
+/* ---- Design tokens ----
+   Colors are not defined here — js/tokens.js fetches tokens/colors.json
+   and sets the --color-* custom properties on :root at load time. */
 :root {
-  --color-bg: #ffffff;
-  --color-bg-alt: #f5f6f8;
-  --color-text: #1a1d21;
-  --color-text-muted: #5b6270;
-  --color-primary: #2f6fed;
-  --color-primary-hover: #2559c7;
-  --color-border: #d7dbe0;
-  --color-focus: #2f6fed;
-
   --radius: 6px;
   --spacing-1: 0.25rem;
   --spacing-2: 0.5rem;
@@ -153,7 +146,7 @@ a {
 .demo-output {
   margin-top: var(--spacing-4);
   background: var(--color-text);
-  color: #fff;
+  color: var(--color-bg);
   padding: var(--spacing-3);
   border-radius: var(--radius);
   overflow-x: auto;

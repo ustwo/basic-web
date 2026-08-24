@@ -36,7 +36,7 @@ class UIButton extends HTMLElement {
           cursor: pointer;
         }
         button:focus-visible {
-          outline: 2px solid var(--color-focus, #2f6fed);
+          outline: 2px solid var(--color-focus);
           outline-offset: 2px;
         }
         button:disabled {
@@ -44,19 +44,19 @@ class UIButton extends HTMLElement {
           opacity: 0.5;
         }
         .primary {
-          background: var(--color-primary, #2f6fed);
-          color: #fff;
+          background: var(--color-primary);
+          color: var(--color-bg);
         }
         .primary:hover:not(:disabled) {
-          background: var(--color-primary-hover, #2559c7);
+          background: var(--color-primary-hover);
         }
         .secondary {
           background: transparent;
-          color: var(--color-text, #1a1d21);
-          border-color: var(--color-border, #d7dbe0);
+          color: var(--color-text);
+          border-color: var(--color-border);
         }
         .secondary:hover:not(:disabled) {
-          background: var(--color-bg-alt, #f5f6f8);
+          background: var(--color-bg-alt);
         }
       </style>
       <button class="${variant}" type="${type}" ${disabled ? "disabled" : ""}>
