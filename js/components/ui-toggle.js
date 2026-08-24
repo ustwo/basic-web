@@ -15,7 +15,9 @@ class UIToggle extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.shadowRoot.querySelector("input").addEventListener("change", (e) => {
+    // Delegated on shadowRoot (not the <input>) so it survives render()
+    // replacing the shadow DOM's children on every attribute change.
+    this.shadowRoot.addEventListener("change", (e) => {
       if (e.target.checked) {
         this.setAttribute("checked", "");
       } else {

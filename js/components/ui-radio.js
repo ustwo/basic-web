@@ -1,36 +1,47 @@
 /**
- * <ui-checkbox label="..." checked></ui-checkbox>
- * Fires a "change" event with detail: { checked }.
+ * <ui-radio name="group" value="a" label="Option A" checked></ui-radio>
+ * Radios sharing the same `name` form a group; checking one unchecks the
+ * rest. Fires a "change" event with detail: { value }.
  */
-class UICheckbox extends HTMLElement {
+const radioGroups = new Map();
+
+class UIRadio extends HTMLElement {
   static get observedAttributes() {
-    return ["label", "checked"];
+    return ["label", "checked", "name", "value"];
   }
 
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this._id = `ui-checkbox-${Math.random().toString(36).slice(2, 9)}`;
+    this._id = `ui-radio-${Math.random().toString(36).slice(2, 9)}`;
   }
 
   connectedCallback() {
     this.render();
+    this._group = this.getAttribute("name") || "";
+    if (!radioGroups.has(this._group)) radioGroups.set(this._group, new Set());
+    radioGroups.get(this._group).add(this);
+
     // Delegated on shadowRoot (not the <input>) so it survives render()
     // replacing the shadow DOM's children on every attribute change.
     this.shadowRoot.addEventListener("change", (e) => {
-      if (e.target.checked) {
-        this.setAttribute("checked", "");
-      } else {
-        this.removeAttribute("checked");
+      if (!e.target.checked) return;
+      this.setAttribute("checked", "");
+      for (const other of radioGroups.get(this._group) || []) {
+        if (other !== this) other.removeAttribute("checked");
       }
       this.dispatchEvent(
         new CustomEvent("change", {
-          detail: { checked: e.target.checked },
+          detail: { value: this.getAttribute("value") },
           bubbles: true,
           composed: true,
         })
       );
     });
+  }
+
+  disconnectedCallback() {
+    radioGroups.get(this._group)?.delete(this);
   }
 
   attributeChangedCallback() {
@@ -69,11 +80,11 @@ class UICheckbox extends HTMLElement {
         }
       </style>
       <div class="field">
-        <input id="${this._id}" type="checkbox" ${checked ? "checked" : ""} />
+        <input id="${this._id}" type="radio" ${checked ? "checked" : ""} />
         <label for="${this._id}">${label}</label>
       </div>
     `;
   }
 }
 
-customElements.define("ui-checkbox", UICheckbox);
+customElements.define("ui-radio", UIRadio);

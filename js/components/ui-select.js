@@ -15,7 +15,9 @@ class UISelect extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.shadowRoot.querySelector("select").addEventListener("change", (e) => {
+    // Delegated on shadowRoot (not the <select>) so it survives render()
+    // replacing the shadow DOM's children on every attribute change.
+    this.shadowRoot.addEventListener("change", (e) => {
       this.setAttribute("value", e.target.value);
       this.dispatchEvent(
         new CustomEvent("change", {

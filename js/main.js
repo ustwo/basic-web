@@ -1,9 +1,19 @@
 import "./tokens.js";
 import "./components/ui-button.js";
 import "./components/ui-textfield.js";
+import "./components/ui-textarea.js";
 import "./components/ui-checkbox.js";
 import "./components/ui-toggle.js";
+import "./components/ui-radio.js";
 import "./components/ui-select.js";
+import "./components/ui-badge.js";
+import "./components/ui-card.js";
+import "./components/ui-avatar.js";
+import "./components/ui-alert.js";
+import "./components/ui-tooltip.js";
+import "./components/ui-spinner.js";
+import "./components/ui-progress.js";
+import "./components/ui-tabs.js";
 
 const form = document.getElementById("demo-form");
 const output = document.getElementById("demo-output");
@@ -11,7 +21,9 @@ const output = document.getElementById("demo-output");
 function updateOutput() {
   const state = {
     name: document.getElementById("demo-name").value,
+    bio: document.getElementById("demo-bio").value,
     color: document.getElementById("demo-color").value,
+    plan: document.querySelector('ui-radio[name="demo-plan"][checked]')?.getAttribute("value") ?? null,
     subscribed: document.getElementById("demo-subscribe").checked,
     notify: document.getElementById("demo-notify").checked,
   };

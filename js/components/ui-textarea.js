@@ -1,21 +1,21 @@
 /**
- * <ui-textfield label="Name" placeholder="..." type="text" value="..."></ui-textfield>
+ * <ui-textarea label="Bio" placeholder="..." rows="4" value="..."></ui-textarea>
  * Fires an "input" event with detail: { value }.
  */
-class UITextfield extends HTMLElement {
+class UITextarea extends HTMLElement {
   static get observedAttributes() {
-    return ["label", "placeholder", "type", "value"];
+    return ["label", "placeholder", "value", "rows"];
   }
 
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this._id = `ui-textfield-${Math.random().toString(36).slice(2, 9)}`;
+    this._id = `ui-textarea-${Math.random().toString(36).slice(2, 9)}`;
   }
 
   connectedCallback() {
     this.render();
-    // Delegated on shadowRoot (not the <input>) so it survives render()
+    // Delegated on shadowRoot (not the <textarea>) so it survives render()
     // replacing the shadow DOM's children on every attribute change.
     this.shadowRoot.addEventListener("input", (e) => {
       this.dispatchEvent(
@@ -31,9 +31,9 @@ class UITextfield extends HTMLElement {
   attributeChangedCallback(name) {
     if (!this.shadowRoot.firstChild) return;
     if (name === "value") {
-      const input = this.shadowRoot.querySelector("input");
-      if (input && input.value !== this.getAttribute("value")) {
-        input.value = this.getAttribute("value") || "";
+      const textarea = this.shadowRoot.querySelector("textarea");
+      if (textarea && textarea.value !== this.getAttribute("value")) {
+        textarea.value = this.getAttribute("value") || "";
       }
       return;
     }
@@ -41,19 +41,19 @@ class UITextfield extends HTMLElement {
   }
 
   get value() {
-    return this.shadowRoot.querySelector("input")?.value ?? "";
+    return this.shadowRoot.querySelector("textarea")?.value ?? "";
   }
 
   set value(val) {
-    const input = this.shadowRoot.querySelector("input");
-    if (input) input.value = val;
+    const textarea = this.shadowRoot.querySelector("textarea");
+    if (textarea) textarea.value = val;
   }
 
   render() {
     const label = this.getAttribute("label") || "";
     const placeholder = this.getAttribute("placeholder") || "";
-    const type = this.getAttribute("type") || "text";
     const value = this.getAttribute("value") || "";
+    const rows = this.getAttribute("rows") || "4";
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -67,25 +67,26 @@ class UITextfield extends HTMLElement {
           font-size: 0.85rem;
           color: var(--color-text-muted);
         }
-        input {
+        textarea {
           font: inherit;
           padding: var(--spacing-2, 0.5rem);
           border-radius: var(--radius, 6px);
           border: 1px solid var(--color-border);
           color: var(--color-text);
           background: var(--color-bg);
+          resize: vertical;
         }
-        input:focus-visible {
+        textarea:focus-visible {
           outline: 2px solid var(--color-focus);
           outline-offset: 1px;
         }
       </style>
       <div class="field">
         <label for="${this._id}">${label}</label>
-        <input id="${this._id}" type="${type}" placeholder="${placeholder}" value="${value}" />
+        <textarea id="${this._id}" rows="${rows}" placeholder="${placeholder}">${value}</textarea>
       </div>
     `;
   }
 }
 
-customElements.define("ui-textfield", UITextfield);
+customElements.define("ui-textarea", UITextarea);

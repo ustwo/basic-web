@@ -1,5 +1,5 @@
 /* ---- Design tokens ----
-   Colors are not defined here — js/tokens.js fetches tokens/colors.json
+   Colors are not defined here — js/tokens.js fetches tokens/tokens.json
    and sets the --color-* custom properties on :root at load time. */
 :root {
   --radius: 6px;

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Basic Web Project</title>
-  <meta name="description" content="A minimal, dependency-free web project with five reusable UI components." />
+  <meta name="description" content="A minimal, dependency-free web project with fifteen reusable UI components." />
   <link rel="stylesheet" href="css/styles.css" />
   <script type="module" src="js/main.js"></script>
 </head>
@@ -23,7 +23,7 @@
     <section id="top" class="hero">
       <div class="container">
         <h1>A minimal foundation for your next UI</h1>
-        <p>Plain HTML, CSS and JavaScript &mdash; no build step, no dependencies. Five reusable components, built as native Web Components.</p>
+        <p>Plain HTML, CSS and JavaScript &mdash; no build step, no dependencies. Fifteen reusable components, built as native Web Components.</p>
         <ui-button variant="primary" id="hero-cta">Get started</ui-button>
       </div>
     </section>
@@ -31,7 +31,7 @@
     <section id="components" class="section">
       <div class="container">
         <h2>Components</h2>
-        <p class="section-intro">Five small, self-contained components. Each is a custom element with its own encapsulated styles.</p>
+        <p class="section-intro">Fifteen small, self-contained components. Each is a custom element with its own encapsulated styles.</p>
 
         <div class="component-grid">
           <article class="component-card">
@@ -53,6 +53,14 @@
           </article>
 
           <article class="component-card">
+            <h3>Textarea</h3>
+            <p><code>&lt;ui-textarea&gt;</code></p>
+            <div class="component-demo">
+              <ui-textarea label="Bio" placeholder="Tell us about yourself" rows="3"></ui-textarea>
+            </div>
+          </article>
+
+          <article class="component-card">
             <h3>Checkbox</h3>
             <p><code>&lt;ui-checkbox&gt;</code></p>
             <div class="component-demo">
@@ -69,10 +77,96 @@
           </article>
 
           <article class="component-card">
+            <h3>Radio</h3>
+            <p><code>&lt;ui-radio&gt;</code></p>
+            <div class="component-demo">
+              <ui-radio name="showcase-plan" value="basic" label="Basic" checked></ui-radio>
+              <ui-radio name="showcase-plan" value="pro" label="Pro"></ui-radio>
+            </div>
+          </article>
+
+          <article class="component-card">
             <h3>Select</h3>
             <p><code>&lt;ui-select&gt;</code></p>
             <div class="component-demo">
               <ui-select label="Favorite color" options="Red,Green,Blue"></ui-select>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Badge</h3>
+            <p><code>&lt;ui-badge&gt;</code></p>
+            <div class="component-demo">
+              <ui-badge variant="neutral">Neutral</ui-badge>
+              <ui-badge variant="primary">Primary</ui-badge>
+              <ui-badge variant="success">Success</ui-badge>
+              <ui-badge variant="warning">Warning</ui-badge>
+              <ui-badge variant="danger">Danger</ui-badge>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Card</h3>
+            <p><code>&lt;ui-card&gt;</code></p>
+            <div class="component-demo">
+              <ui-card>
+                <span slot="header">Card title</span>
+                A short bit of body content.
+                <span slot="footer">Footer note</span>
+              </ui-card>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Avatar</h3>
+            <p><code>&lt;ui-avatar&gt;</code></p>
+            <div class="component-demo">
+              <ui-avatar name="Jane Doe"></ui-avatar>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Alert</h3>
+            <p><code>&lt;ui-alert&gt;</code></p>
+            <div class="component-demo">
+              <ui-alert variant="info" dismissible>Heads up, this is informational.</ui-alert>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Tooltip</h3>
+            <p><code>&lt;ui-tooltip&gt;</code></p>
+            <div class="component-demo">
+              <ui-tooltip text="More info on hover">
+                <ui-button variant="secondary">Hover me</ui-button>
+              </ui-tooltip>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Spinner</h3>
+            <p><code>&lt;ui-spinner&gt;</code></p>
+            <div class="component-demo">
+              <ui-spinner></ui-spinner>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Progress</h3>
+            <p><code>&lt;ui-progress&gt;</code></p>
+            <div class="component-demo">
+              <ui-progress value="60" label="Uploading"></ui-progress>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Tabs</h3>
+            <p><code>&lt;ui-tabs&gt;</code></p>
+            <div class="component-demo">
+              <ui-tabs>
+                <div label="Overview">Overview panel content.</div>
+                <div label="Details">Details panel content.</div>
+              </ui-tabs>
             </div>
           </article>
         </div>
@@ -86,7 +180,10 @@
 
         <form id="demo-form" class="demo-form">
           <ui-textfield id="demo-name" label="Full name" placeholder="Jane Doe"></ui-textfield>
+          <ui-textarea id="demo-bio" label="Bio" placeholder="Tell us about yourself" rows="3"></ui-textarea>
           <ui-select id="demo-color" label="Favorite color" options="Red,Green,Blue"></ui-select>
+          <ui-radio name="demo-plan" value="basic" label="Basic plan" checked></ui-radio>
+          <ui-radio name="demo-plan" value="pro" label="Pro plan"></ui-radio>
           <ui-checkbox id="demo-subscribe" label="Subscribe to updates"></ui-checkbox>
           <ui-toggle id="demo-notify" label="Enable notifications"></ui-toggle>
           <ui-button id="demo-submit" variant="primary">Submit</ui-button>
