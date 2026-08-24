@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Web Project</title>
+  <meta name="description" content="A minimal, dependency-free web project with five reusable UI components." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#top">Basic Web Project</a>
+      <nav aria-label="Primary">
+        <a href="#components">Components</a>
+        <a href="#demo">Demo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="top" class="hero">
+      <div class="container">
+        <h1>A minimal foundation for your next UI</h1>
+        <p>Plain HTML, CSS and JavaScript &mdash; no build step, no dependencies. Five reusable components, built as native Web Components.</p>
+        <ui-button variant="primary" id="hero-cta">Get started</ui-button>
+      </div>
+    </section>
+
+    <section id="components" class="section">
+      <div class="container">
+        <h2>Components</h2>
+        <p class="section-intro">Five small, self-contained components. Each is a custom element with its own encapsulated styles.</p>
+
+        <div class="component-grid">
+          <article class="component-card">
+            <h3>Button</h3>
+            <p><code>&lt;ui-button&gt;</code></p>
+            <div class="component-demo">
+              <ui-button variant="primary">Primary</ui-button>
+              <ui-button variant="secondary">Secondary</ui-button>
+              <ui-button variant="primary" disabled>Disabled</ui-button>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Text field</h3>
+            <p><code>&lt;ui-textfield&gt;</code></p>
+            <div class="component-demo">
+              <ui-textfield label="Your name" placeholder="Jane Doe"></ui-textfield>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Checkbox</h3>
+            <p><code>&lt;ui-checkbox&gt;</code></p>
+            <div class="component-demo">
+              <ui-checkbox label="Subscribe to updates"></ui-checkbox>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Toggle</h3>
+            <p><code>&lt;ui-toggle&gt;</code></p>
+            <div class="component-demo">
+              <ui-toggle label="Enable notifications"></ui-toggle>
+            </div>
+          </article>
+
+          <article class="component-card">
+            <h3>Select</h3>
+            <p><code>&lt;ui-select&gt;</code></p>
+            <div class="component-demo">
+              <ui-select label="Favorite color" options="Red,Green,Blue"></ui-select>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo" class="section section-alt">
+      <div class="container">
+        <h2>Live demo</h2>
+        <p class="section-intro">The components below are wired together. Interact with them and watch the state update.</p>
+
+        <form id="demo-form" class="demo-form">
+          <ui-textfield id="demo-name" label="Full name" placeholder="Jane Doe"></ui-textfield>
+          <ui-select id="demo-color" label="Favorite color" options="Red,Green,Blue"></ui-select>
+          <ui-checkbox id="demo-subscribe" label="Subscribe to updates"></ui-checkbox>
+          <ui-toggle id="demo-notify" label="Enable notifications"></ui-toggle>
+          <ui-button id="demo-submit" variant="primary">Submit</ui-button>
+        </form>
+
+        <pre id="demo-output" class="demo-output" aria-live="polite">{}</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Basic Web Project &mdash; built with plain HTML, CSS and JavaScript.</p>
+    </div>
+  </footer>
+</body>
+</html>
