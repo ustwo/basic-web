@@ -1,94 +1,58 @@
 /**
- * <ui-tabs selected="0">
- *   <div label="Tab 1">Panel 1</div>
- *   <div label="Tab 2">Panel 2</div>
- * </ui-tabs>
- * Each direct child becomes a panel; its `label` attribute becomes the tab title.
+ * <ui-tabs selected="0"><div label="Overview">Overview panel.</div><div label="Details">Details panel.</div></ui-tabs>
+ * Each direct child is a panel; its "label" attribute becomes the tab title.
+ * Fires "change" with detail.index.
  */
 class UITabs extends HTMLElement {
-  static get observedAttributes() {
-    return ["selected"];
-  }
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-  }
-
-  connectedCallback() {
+  static get observedAttributes() { return ["selected", "variant"]; }
+  constructor() { super(); this.attachShadow({ mode: "open" }); }
+  connectedCallback() { this.render(); }
+  attributeChangedCallback() { this.render(); }
+  render() {
+    const selected = Number(this.getAttribute("selected") || 0);
+    const variant = this.getAttribute("variant") || "solid";
+    const panels = Array.from(this.children);
     this.shadowRoot.innerHTML = `
       <style>
-        :host {
-          display: block;
-          font-family: var(--font-family, inherit);
-        }
-        .tablist {
-          display: flex;
-          gap: var(--spacing-3, 1rem);
-          border-bottom: 1px solid var(--color-border);
-        }
+        :host { display: block; font: var(--body-l); letter-spacing: var(--tracking-body-l); color: var(--color-on-surface); }
+        :host([hidden]) { display: none; }
+        *, *::before, *::after { box-sizing: border-box; }
+        .tabs { display: flex; gap: var(--spacing-2, 4px); padding: var(--spacing-1, 2px);
+          background: var(--color-surface-container); border-radius: var(--radius-md, 10px);
+          margin-bottom: var(--spacing-5, 16px); overflow-x: auto; }
+        .underline .tabs { background: transparent; padding: 0; gap: var(--spacing-6, 20px);
+          border-bottom: var(--border-thin, 1px) solid var(--color-outline-variant); border-radius: 0; }
         button {
-          font: inherit;
-          padding: var(--spacing-2, 0.5rem) 0;
-          border: none;
-          border-bottom: 2px solid transparent;
-          background: transparent;
-          color: var(--color-text-muted);
-          cursor: pointer;
+          border: 0; background: transparent; cursor: pointer; white-space: nowrap;
+          font: var(--label-m); letter-spacing: var(--tracking-label-m);
+          color: var(--color-on-surface-variant);
+          padding: var(--spacing-3, 8px) var(--spacing-5, 16px);
+          border-radius: var(--radius-sm, 6px);
+          transition: background var(--duration-fast, 120ms) var(--ease-standard), color var(--duration-fast, 120ms) var(--ease-standard);
         }
-        button.active {
-          color: var(--color-primary);
-          border-color: var(--color-primary);
-        }
-        button:focus-visible {
-          outline: 2px solid var(--color-focus);
-          outline-offset: 2px;
-        }
+        button:hover { color: var(--color-on-surface); }
+        button[aria-selected="true"] { background: var(--color-surface); color: var(--color-on-surface); box-shadow: var(--elevation-1); }
+        button:focus-visible { outline: none; box-shadow: var(--shadow-focus, 0 0 0 3px rgba(0,111,238,0.35)); }
+        .underline button { border-radius: 0; padding: var(--spacing-3, 8px) 0;
+          border-bottom: var(--border-medium, 2px) solid transparent; margin-bottom: -1px; }
+        .underline button[aria-selected="true"] { background: transparent; box-shadow: none;
+          color: var(--color-primary); border-bottom-color: var(--color-primary); }
       </style>
-      <div class="tablist" role="tablist"></div>
-      <slot name="tab"></slot>
+      <div class="${variant === "underline" ? "underline" : ""}">
+        <div class="tabs" role="tablist" part="tablist">
+          ${panels.map((p, i) => `<button type="button" role="tab" aria-selected="${i === selected}">${p.getAttribute("label") || "Tab " + (i + 1)}</button>`).join("")}
+        </div>
+        <div class="panel" part="panel"><slot></slot></div>
+      </div>
     `;
-
-    // Delegated on shadowRoot so it keeps working across renderTabs() calls.
-    this.shadowRoot.addEventListener("click", (e) => {
-      const button = e.target.closest("[data-index]");
-      if (!button) return;
-      this.setAttribute("selected", button.dataset.index);
-    });
-    this.shadowRoot
-      .querySelector("slot")
-      .addEventListener("slotchange", () => this.renderTabs());
-
-    this.renderTabs();
-  }
-
-  attributeChangedCallback(name) {
-    if (name === "selected" && this.shadowRoot.firstChild) this.renderTabs();
-  }
-
-  renderTabs() {
-    const panels = Array.from(this.children);
-    const selected = Math.min(
-      Math.max(Number(this.getAttribute("selected")) || 0, 0),
-      Math.max(panels.length - 1, 0)
-    );
-
-    this.shadowRoot.querySelector(".tablist").innerHTML = panels
-      .map(
-        (panel, i) => `
-          <button type="button" data-index="${i}" class="${i === selected ? "active" : ""}" role="tab" aria-selected="${i === selected}">
-            ${panel.getAttribute("label") || `Tab ${i + 1}`}
-          </button>
-        `
-      )
-      .join("");
-
-    panels.forEach((panel, i) => {
-      panel.slot = "tab";
-      panel.setAttribute("role", "tabpanel");
-      panel.hidden = i !== selected;
+    panels.forEach((p, i) => { p.style.display = i === selected ? "" : "none"; });
+    this.shadowRoot.querySelectorAll("button").forEach((b, i) => {
+      b.addEventListener("click", () => {
+        this.setAttribute("selected", String(i));
+        this.dispatchEvent(new CustomEvent("change", { detail: { index: i }, bubbles: true, composed: true }));
+      });
     });
   }
 }
-
 customElements.define("ui-tabs", UITabs);
+export default UITabs;

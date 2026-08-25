@@ -1,121 +1,53 @@
 /**
- * <ui-toggle label="..." checked></ui-toggle>
- * Fires a "change" event with detail: { checked }.
+ * <ui-toggle label="Enable notifications"></ui-toggle>
+ * Fires "change" with detail.checked.
  */
 class UIToggle extends HTMLElement {
-  static get observedAttributes() {
-    return ["label", "checked"];
-  }
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-    this._id = `ui-toggle-${Math.random().toString(36).slice(2, 9)}`;
-  }
-
-  connectedCallback() {
-    this.render();
-    // Delegated on shadowRoot (not the <input>) so it survives render()
-    // replacing the shadow DOM's children on every attribute change.
-    this.shadowRoot.addEventListener("change", (e) => {
-      if (e.target.checked) {
-        this.setAttribute("checked", "");
-      } else {
-        this.removeAttribute("checked");
-      }
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: { checked: e.target.checked },
-          bubbles: true,
-          composed: true,
-        })
-      );
-    });
-  }
-
-  attributeChangedCallback() {
-    this.render();
-  }
-
-  get checked() {
-    return this.hasAttribute("checked");
-  }
-
-  set checked(val) {
-    if (val) this.setAttribute("checked", "");
-    else this.removeAttribute("checked");
-  }
-
+  static get observedAttributes() { return ["label", "checked", "disabled"]; }
+  constructor() { super(); this.attachShadow({ mode: "open" }); }
+  connectedCallback() { this.render(); }
+  attributeChangedCallback() { this.render(); }
   render() {
     const label = this.getAttribute("label") || "";
     const checked = this.hasAttribute("checked");
-
+    const disabled = this.hasAttribute("disabled");
     this.shadowRoot.innerHTML = `
       <style>
-        .field {
-          display: flex;
-          align-items: center;
-          gap: var(--spacing-2, 0.5rem);
-          font-family: var(--font-family, inherit);
-        }
-        .switch {
-          position: relative;
-          display: inline-block;
-          width: 2.25rem;
-          height: 1.25rem;
-        }
-        .switch input {
-          position: absolute;
-          opacity: 0;
-          width: 100%;
-          height: 100%;
-          margin: 0;
-          cursor: pointer;
-        }
+        :host { display: block; font: var(--body-l); letter-spacing: var(--tracking-body-l); color: var(--color-on-surface); }
+        :host([hidden]) { display: none; }
+        *, *::before, *::after { box-sizing: border-box; }
+        label { display: inline-flex; align-items: center; gap: var(--spacing-3, 8px); cursor: pointer; font: var(--body-m); }
+        label[data-disabled] { opacity: var(--opacity-disabled); cursor: not-allowed; }
+        input { position: absolute; opacity: 0; width: 0; height: 0; }
         .track {
-          position: absolute;
-          inset: 0;
-          background: var(--color-border);
-          border-radius: 999px;
-          transition: background 0.15s ease;
-          pointer-events: none;
+          width: 44px; height: 26px; flex: none;
+          background: var(--color-outline-variant);
+          border-radius: var(--radius-pill, 9999px);
+          padding: 3px;
+          transition: background var(--duration-base, 200ms) var(--ease-standard);
         }
-        .thumb {
-          position: absolute;
-          top: 2px;
-          left: 2px;
-          width: 1rem;
-          height: 1rem;
-          background: var(--color-bg);
-          border-radius: 50%;
-          transition: transform 0.15s ease;
-          pointer-events: none;
+        .knob {
+          width: 20px; height: 20px;
+          background: var(--color-surface);
+          border-radius: var(--radius-pill, 9999px);
+          box-shadow: var(--elevation-1);
+          transition: transform var(--duration-base, 200ms) var(--ease-spring);
         }
-        input:checked ~ .track {
-          background: var(--color-primary);
-        }
-        input:checked ~ .thumb {
-          transform: translateX(1rem);
-        }
-        input:focus-visible ~ .track {
-          outline: 2px solid var(--color-focus);
-          outline-offset: 2px;
-        }
-        label {
-          color: var(--color-text);
-          font-size: 0.95rem;
-        }
+        input:checked + .track { background: var(--color-primary); }
+        input:checked + .track .knob { transform: translateX(18px); }
+        input:focus-visible + .track { box-shadow: var(--shadow-focus, 0 0 0 3px rgba(0,111,238,0.35)); }
       </style>
-      <div class="field">
-        <span class="switch">
-          <input id="${this._id}" type="checkbox" role="switch" ${checked ? "checked" : ""} />
-          <span class="track"></span>
-          <span class="thumb"></span>
-        </span>
-        <label for="${this._id}">${label}</label>
-      </div>
+      <label ${disabled ? "data-disabled" : ""}>
+        <input type="checkbox" role="switch" ${checked ? "checked" : ""} ${disabled ? "disabled" : ""} />
+        <span class="track" part="track"><span class="knob"></span></span>
+        <span>${label}</span>
+      </label>
     `;
+    this.shadowRoot.querySelector("input").addEventListener("change", e => {
+      e.target.checked ? this.setAttribute("checked", "") : this.removeAttribute("checked");
+      this.dispatchEvent(new CustomEvent("change", { detail: { checked: e.target.checked }, bubbles: true, composed: true }));
+    });
   }
 }
-
 customElements.define("ui-toggle", UIToggle);
+export default UIToggle;

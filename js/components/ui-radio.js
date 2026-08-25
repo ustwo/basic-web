@@ -1,90 +1,60 @@
 /**
- * <ui-radio name="group" value="a" label="Option A" checked></ui-radio>
- * Radios sharing the same `name` form a group; checking one unchecks the
- * rest. Fires a "change" event with detail: { value }.
+ * <ui-radio name="plan" value="pro" label="Pro"></ui-radio>
+ * Radios sharing a name form a group: checking one clears the others.
+ * Fires "change" with detail.value.
  */
-const radioGroups = new Map();
-
 class UIRadio extends HTMLElement {
-  static get observedAttributes() {
-    return ["label", "checked", "name", "value"];
-  }
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-    this._id = `ui-radio-${Math.random().toString(36).slice(2, 9)}`;
-  }
-
-  connectedCallback() {
-    this.render();
-    this._group = this.getAttribute("name") || "";
-    if (!radioGroups.has(this._group)) radioGroups.set(this._group, new Set());
-    radioGroups.get(this._group).add(this);
-
-    // Delegated on shadowRoot (not the <input>) so it survives render()
-    // replacing the shadow DOM's children on every attribute change.
-    this.shadowRoot.addEventListener("change", (e) => {
-      if (!e.target.checked) return;
-      this.setAttribute("checked", "");
-      for (const other of radioGroups.get(this._group) || []) {
-        if (other !== this) other.removeAttribute("checked");
-      }
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: { value: this.getAttribute("value") },
-          bubbles: true,
-          composed: true,
-        })
-      );
-    });
-  }
-
-  disconnectedCallback() {
-    radioGroups.get(this._group)?.delete(this);
-  }
-
-  attributeChangedCallback() {
-    this.render();
-  }
-
-  get checked() {
-    return this.hasAttribute("checked");
-  }
-
-  set checked(val) {
-    if (val) this.setAttribute("checked", "");
-    else this.removeAttribute("checked");
-  }
-
+  static get observedAttributes() { return ["name", "value", "label", "checked", "disabled"]; }
+  constructor() { super(); this.attachShadow({ mode: "open" }); }
+  connectedCallback() { this.render(); }
+  attributeChangedCallback() { this.render(); }
   render() {
+    const name = this.getAttribute("name") || "";
+    const value = this.getAttribute("value") || "";
     const label = this.getAttribute("label") || "";
     const checked = this.hasAttribute("checked");
-
+    const disabled = this.hasAttribute("disabled");
     this.shadowRoot.innerHTML = `
       <style>
-        .field {
-          display: flex;
-          align-items: center;
-          gap: var(--spacing-2, 0.5rem);
-          font-family: var(--font-family, inherit);
+        :host { display: block; font: var(--body-l); letter-spacing: var(--tracking-body-l); color: var(--color-on-surface); }
+        :host([hidden]) { display: none; }
+        *, *::before, *::after { box-sizing: border-box; }
+        label { display: inline-flex; align-items: center; gap: var(--spacing-3, 8px); cursor: pointer; font: var(--body-m); }
+        label[data-disabled] { opacity: var(--opacity-disabled); cursor: not-allowed; }
+        input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .dot {
+          width: 20px; height: 20px; flex: none;
+          border: var(--border-medium, 2px) solid var(--color-outline);
+          border-radius: var(--radius-pill, 9999px);
+          background: var(--color-surface);
+          display: grid; place-items: center;
+          transition: border-color var(--duration-fast, 120ms) var(--ease-standard);
         }
-        input {
-          width: 1.1rem;
-          height: 1.1rem;
-          accent-color: var(--color-primary);
+        .dot::after {
+          content: ""; width: 10px; height: 10px; border-radius: var(--radius-pill, 9999px);
+          background: var(--color-primary); transform: scale(0);
+          transition: transform var(--duration-fast, 120ms) var(--ease-spring);
         }
-        label {
-          color: var(--color-text);
-          font-size: 0.95rem;
-        }
+        input:checked + .dot { border-color: var(--color-primary); }
+        input:checked + .dot::after { transform: scale(1); }
+        input:focus-visible + .dot { box-shadow: var(--shadow-focus, 0 0 0 3px rgba(0,111,238,0.35)); }
       </style>
-      <div class="field">
-        <input id="${this._id}" type="radio" ${checked ? "checked" : ""} />
-        <label for="${this._id}">${label}</label>
-      </div>
+      <label ${disabled ? "data-disabled" : ""}>
+        <input type="radio" name="${name}" value="${value}" ${checked ? "checked" : ""} ${disabled ? "disabled" : ""} />
+        <span class="dot" part="dot"></span>
+        <span>${label}</span>
+      </label>
     `;
+    this.shadowRoot.querySelector("input").addEventListener("change", e => {
+      if (!e.target.checked) return;
+      this.setAttribute("checked", "");
+      // Shadow DOM isolates each radio, so the group has to be maintained here.
+      if (name) {
+        document.querySelectorAll(`ui-radio[name="${name}"]`).forEach(r => { if (r !== this) r.removeAttribute("checked"); });
+      }
+      this.dispatchEvent(new CustomEvent("change", { detail: { value }, bubbles: true, composed: true }));
+    });
   }
 }
-
 customElements.define("ui-radio", UIRadio);
+export default UIRadio;

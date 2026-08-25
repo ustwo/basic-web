@@ -1,203 +1,166 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Basic Web Project</title>
-  <meta name="description" content="A minimal, dependency-free web project with fifteen reusable UI components." />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LDS — component library</title>
   <link rel="stylesheet" href="css/styles.css" />
   <script type="module" src="js/main.js"></script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="logo" href="#top">Basic Web Project</a>
-      <nav aria-label="Primary">
-        <a href="#components">Components</a>
-        <a href="#demo">Demo</a>
-      </nav>
-    </div>
-  </header>
+  <main class="page">
+    <header class="page-header">
+      <h1>LDS</h1>
+      <p>Twenty-eight components built as native custom elements, styled from the Prisma Design System — light theme, PC type scale. No build step, no framework, no package manager. Every visual value resolves from <code>tokens/tokens.json</code>.</p>
+    </header>
 
-  <main>
-    <section id="top" class="hero">
-      <div class="container">
-        <h1>A minimal foundation for your next UI</h1>
-        <p>Plain HTML, CSS and JavaScript &mdash; no build step, no dependencies. Fifteen reusable components, built as native Web Components.</p>
-        <ui-button variant="primary" id="hero-cta">Get started</ui-button>
+    <section class="section">
+      <h2>Colour</h2>
+      <p class="lead">Read from the applied custom properties, so this grid cannot drift from what the components resolve.</p>
+      <div class="swatches" id="swatches"></div>
+    </section>
+
+    <section class="section">
+      <h2>Type scale</h2>
+      <p class="lead">The PC scale. Tablet and mobile are deliberately not carried — this project has one viewport.</p>
+      <div id="type-scale"></div>
+    </section>
+
+    <section class="section">
+      <h2>Buttons</h2>
+      <div class="row">
+        <ui-button variant="primary">Primary</ui-button>
+        <ui-button variant="secondary">Secondary</ui-button>
+        <ui-button variant="success">Success</ui-button>
+        <ui-button variant="danger">Danger</ui-button>
+        <ui-button variant="ghost">Ghost</ui-button>
+        <ui-button variant="light">Light</ui-button>
+        <ui-button variant="primary" disabled>Disabled</ui-button>
+      </div>
+      <div class="row" style="margin-top: 12px;">
+        <ui-button variant="primary" size="sm">Small</ui-button>
+        <ui-button variant="primary" size="md">Medium</ui-button>
+        <ui-button variant="primary" size="lg">Large</ui-button>
+        <ui-icon-button label="Settings" variant="light">⚙</ui-icon-button>
+        <ui-icon-button label="Delete" variant="danger">×</ui-icon-button>
       </div>
     </section>
 
-    <section id="components" class="section">
-      <div class="container">
-        <h2>Components</h2>
-        <p class="section-intro">Fifteen small, self-contained components. Each is a custom element with its own encapsulated styles.</p>
-
-        <div class="component-grid">
-          <article class="component-card">
-            <h3>Button</h3>
-            <p><code>&lt;ui-button&gt;</code></p>
-            <div class="component-demo">
-              <ui-button variant="primary">Primary</ui-button>
-              <ui-button variant="secondary">Secondary</ui-button>
-              <ui-button variant="primary" disabled>Disabled</ui-button>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Text field</h3>
-            <p><code>&lt;ui-textfield&gt;</code></p>
-            <div class="component-demo">
-              <ui-textfield label="Your name" placeholder="Jane Doe"></ui-textfield>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Textarea</h3>
-            <p><code>&lt;ui-textarea&gt;</code></p>
-            <div class="component-demo">
-              <ui-textarea label="Bio" placeholder="Tell us about yourself" rows="3"></ui-textarea>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Checkbox</h3>
-            <p><code>&lt;ui-checkbox&gt;</code></p>
-            <div class="component-demo">
-              <ui-checkbox label="Subscribe to updates"></ui-checkbox>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Toggle</h3>
-            <p><code>&lt;ui-toggle&gt;</code></p>
-            <div class="component-demo">
-              <ui-toggle label="Enable notifications"></ui-toggle>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Radio</h3>
-            <p><code>&lt;ui-radio&gt;</code></p>
-            <div class="component-demo">
-              <ui-radio name="showcase-plan" value="basic" label="Basic" checked></ui-radio>
-              <ui-radio name="showcase-plan" value="pro" label="Pro"></ui-radio>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Select</h3>
-            <p><code>&lt;ui-select&gt;</code></p>
-            <div class="component-demo">
-              <ui-select label="Favorite color" options="Red,Green,Blue"></ui-select>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Badge</h3>
-            <p><code>&lt;ui-badge&gt;</code></p>
-            <div class="component-demo">
-              <ui-badge variant="neutral">Neutral</ui-badge>
-              <ui-badge variant="primary">Primary</ui-badge>
-              <ui-badge variant="success">Success</ui-badge>
-              <ui-badge variant="warning">Warning</ui-badge>
-              <ui-badge variant="danger">Danger</ui-badge>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Card</h3>
-            <p><code>&lt;ui-card&gt;</code></p>
-            <div class="component-demo">
-              <ui-card>
-                <span slot="header">Card title</span>
-                A short bit of body content.
-                <span slot="footer">Footer note</span>
-              </ui-card>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Avatar</h3>
-            <p><code>&lt;ui-avatar&gt;</code></p>
-            <div class="component-demo">
-              <ui-avatar name="Jane Doe"></ui-avatar>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Alert</h3>
-            <p><code>&lt;ui-alert&gt;</code></p>
-            <div class="component-demo">
-              <ui-alert variant="info" dismissible>Heads up, this is informational.</ui-alert>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Tooltip</h3>
-            <p><code>&lt;ui-tooltip&gt;</code></p>
-            <div class="component-demo">
-              <ui-tooltip text="More info on hover">
-                <ui-button variant="secondary">Hover me</ui-button>
-              </ui-tooltip>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Spinner</h3>
-            <p><code>&lt;ui-spinner&gt;</code></p>
-            <div class="component-demo">
-              <ui-spinner></ui-spinner>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Progress</h3>
-            <p><code>&lt;ui-progress&gt;</code></p>
-            <div class="component-demo">
-              <ui-progress value="60" label="Uploading"></ui-progress>
-            </div>
-          </article>
-
-          <article class="component-card">
-            <h3>Tabs</h3>
-            <p><code>&lt;ui-tabs&gt;</code></p>
-            <div class="component-demo">
-              <ui-tabs>
-                <div label="Overview">Overview panel content.</div>
-                <div label="Details">Details panel content.</div>
-              </ui-tabs>
-            </div>
-          </article>
+    <section class="section">
+      <h2>Form controls</h2>
+      <div class="grid">
+        <ui-textfield label="Full name" placeholder="Jane Doe" hint="As it appears on your ID"></ui-textfield>
+        <ui-textfield label="Email" placeholder="jane@example.com" error="That address is already in use"></ui-textfield>
+        <ui-search-field placeholder="Search components"></ui-search-field>
+        <ui-select label="Favourite colour" options="Red,Green,Blue" value="Green"></ui-select>
+      </div>
+      <div class="grid" style="margin-top: 16px;">
+        <ui-textarea label="Notes" placeholder="Anything we should know" rows="3"></ui-textarea>
+        <div class="stack">
+          <ui-checkbox label="Subscribe to updates" checked></ui-checkbox>
+          <ui-toggle label="Enable notifications" checked></ui-toggle>
+          <div class="row">
+            <ui-radio name="plan" value="basic" label="Basic" checked></ui-radio>
+            <ui-radio name="plan" value="pro" label="Pro"></ui-radio>
+          </div>
+          <ui-slider label="Volume" value="60"></ui-slider>
         </div>
       </div>
     </section>
 
-    <section id="demo" class="section section-alt">
-      <div class="container">
-        <h2>Live demo</h2>
-        <p class="section-intro">The components below are wired together. Interact with them and watch the state update.</p>
-
-        <form id="demo-form" class="demo-form">
-          <ui-textfield id="demo-name" label="Full name" placeholder="Jane Doe"></ui-textfield>
-          <ui-textarea id="demo-bio" label="Bio" placeholder="Tell us about yourself" rows="3"></ui-textarea>
-          <ui-select id="demo-color" label="Favorite color" options="Red,Green,Blue"></ui-select>
-          <ui-radio name="demo-plan" value="basic" label="Basic plan" checked></ui-radio>
-          <ui-radio name="demo-plan" value="pro" label="Pro plan"></ui-radio>
-          <ui-checkbox id="demo-subscribe" label="Subscribe to updates"></ui-checkbox>
-          <ui-toggle id="demo-notify" label="Enable notifications"></ui-toggle>
-          <ui-button id="demo-submit" variant="primary">Submit</ui-button>
-        </form>
-
-        <pre id="demo-output" class="demo-output" aria-live="polite">{}</pre>
+    <section class="section">
+      <h2>Data display</h2>
+      <div class="row">
+        <ui-badge variant="primary">New</ui-badge>
+        <ui-badge variant="success" dot>Active</ui-badge>
+        <ui-badge variant="warning">Pending</ui-badge>
+        <ui-badge variant="danger">Failed</ui-badge>
+        <ui-chip variant="primary" removable>Design</ui-chip>
+        <ui-chip variant="neutral" removable>Engineering</ui-chip>
+        <ui-avatar name="Jane Doe" status="online"></ui-avatar>
+        <ui-avatar name="Sam Reed" size="48" status="away"></ui-avatar>
       </div>
+      <div style="margin-top: 20px;">
+        <ui-table striped caption="Team" columns="Name,Role,Status"
+          rows="Jane Doe|Designer|Active;Sam Reed|Engineer|Away;Ada Okoro|Researcher|Active"></ui-table>
+      </div>
+      <div class="row" style="margin-top: 20px;">
+        <ui-pagination page="3" total="12"></ui-pagination>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Layout</h2>
+      <div class="grid">
+        <ui-card>
+          <span slot="header">Project status</span>
+          Three tasks remain before the release candidate is ready for review.
+          <span slot="footer">Updated today</span>
+        </ui-card>
+        <ui-card raised>
+          <span slot="header">Raised</span>
+          The same card with a stronger elevation token.
+        </ui-card>
+        <ui-card flat>
+          <span slot="header">Flat</span>
+          No shadow at all — form carried by the border alone.
+        </ui-card>
+      </div>
+      <div style="margin-top: 20px;">
+        <ui-divider label="or"></ui-divider>
+      </div>
+      <div class="stack" style="margin-top: 20px;">
+        <ui-accordion label="Shipping and returns" open>Free returns within 30 days of delivery.</ui-accordion>
+        <ui-accordion label="Payment methods">All major cards, plus Apple Pay and Google Pay.</ui-accordion>
+      </div>
+      <div style="margin-top: 20px;">
+        <ui-tabs selected="0">
+          <div label="Overview">A summary of the project and its current state.</div>
+          <div label="Details">Every field, in full.</div>
+          <div label="Activity">What changed, and who changed it.</div>
+        </ui-tabs>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Feedback</h2>
+      <div class="stack">
+        <ui-alert variant="info" title="Heads up">A new version is available.</ui-alert>
+        <ui-alert variant="success" title="Saved" dismissible>Your changes are live.</ui-alert>
+        <ui-alert variant="warning">Your trial ends in three days.</ui-alert>
+        <ui-alert variant="danger" title="Failed" dismissible>We could not reach the server.</ui-alert>
+      </div>
+      <div class="row" style="margin-top: 20px;">
+        <ui-spinner size="20" label="Loading"></ui-spinner>
+        <ui-tooltip text="This is a tooltip" position="top"><ui-button variant="light">Hover me</ui-button></ui-tooltip>
+        <ui-dropdown label="Actions" options="Edit,Duplicate,Delete"></ui-dropdown>
+        <ui-button id="open-modal" variant="primary">Open modal</ui-button>
+        <ui-button id="fire-toast" variant="light">Fire toast</ui-button>
+      </div>
+      <div class="grid" style="margin-top: 20px;">
+        <ui-progress value="60" max="100" label="Uploading"></ui-progress>
+        <ui-progress value="30" max="100" label="Indexing" variant="warning"></ui-progress>
+        <ui-progress indeterminate label="Working"></ui-progress>
+      </div>
+      <div class="grid" style="margin-top: 20px;">
+        <ui-skeleton lines="3"></ui-skeleton>
+        <ui-empty-state icon="□" title="No projects yet" description="Create your first project to get started.">
+          <ui-button variant="primary" size="sm">New project</ui-button>
+        </ui-empty-state>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Events</h2>
+      <p class="lead">The six most recent component events, newest first.</p>
+      <div id="event-log" style="font-family: var(--font-family-mono); font-size: 12px; color: var(--color-text-muted); display: flex; flex-direction: column; gap: 4px; min-height: 40px; padding: 12px 16px; background: var(--color-neutral-50); border: 1px solid var(--color-border); border-radius: 10px;"></div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>Basic Web Project &mdash; built with plain HTML, CSS and JavaScript.</p>
-    </div>
-  </footer>
+  <ui-modal id="demo-modal" heading="Delete project">
+    <p style="margin: 0;">This removes the project and everything in it. This cannot be undone.</p>
+    <ui-button slot="footer" variant="light" data-close-modal>Cancel</ui-button>
+    <ui-button slot="footer" variant="danger" data-close-modal>Delete</ui-button>
+  </ui-modal>
 </body>
 </html>

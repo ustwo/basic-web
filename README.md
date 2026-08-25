@@ -1,158 +1,175 @@
-# Basic Web Project
+# LDS
 
-A minimal, dependency-free landing page with fifteen reusable UI components, built as native [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) (Custom Elements + Shadow DOM).
+Styled from the **Prisma Design System** — light theme, PC type scale.
 
-No build tools, no frameworks, no package manager, no bundler. Just HTML, CSS and JavaScript, loaded directly by the browser.
+A dependency-free component library: **28 components** built as native
+[Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
+(Custom Elements + Shadow DOM).
 
-## Features
-
-- **Zero dependencies** — nothing to `npm install`, nothing to compile.
-- **Fifteen reusable components** — form controls, feedback, and layout primitives, each a self-contained custom element.
-- **Encapsulated styles** — every component uses Shadow DOM, so its internal markup and CSS can't leak into or be broken by the page.
-- **Themeable** — components inherit CSS custom properties from the page, so changing a handful of variables re-themes everything at once.
-- **Accessible by default** — components wrap native `<button>`, `<input>`, `<select>` and `<label>` elements, keeping built-in keyboard support and screen-reader semantics.
+No build tools, no frameworks, no package manager, no bundler. Just HTML, CSS and
+JavaScript, loaded directly by the browser.
 
 ## Quick start
 
-Serve the project directory over HTTP (required — the JavaScript uses ES modules, which browsers block from loading over `file://`):
+Serve the directory over HTTP — the JavaScript uses ES modules, which browsers block
+over `file://`:
 
-```bash
-cd basic-web-project
+```
 python3 -m http.server 4173
 ```
 
-Then open **http://localhost:4173**. Any other static file server (`npx serve .`, `php -S localhost:4173`, etc.) works just as well.
+Then open <http://localhost:4173>. Any static server works.
 
 ## Project structure
 
 ```
-index.html              Landing page markup
+index.html              Demo page for every component
 tokens/
-  tokens.json           The single source of truth for all color values
+  tokens.json           Single source of truth for every design value
 css/
-  styles.css            Spacing/radius/font tokens + page layout (no colors)
+  styles.css            Page layout only — no design values
 js/
-  tokens.js              Fetches tokens/tokens.json, applies --color-* on :root
-  main.js                Registers components, wires up the live demo
-  components/
-    ui-button.js
-    ui-textfield.js
-    ui-textarea.js
-    ui-checkbox.js
-    ui-toggle.js
-    ui-radio.js
-    ui-select.js
-    ui-badge.js
-    ui-card.js
-    ui-avatar.js
-    ui-alert.js
-    ui-tooltip.js
-    ui-spinner.js
-    ui-progress.js
-    ui-tabs.js
+  tokens.js             Reads tokens.json, applies every group to :root
+  main.js               Registers components, wires the demo
+  components/           One file per component
 ```
 
 ## Components
 
-| Element           | Attributes                                              | Events                        |
-| ----------------- | --------------------------------------------------------- | ------------------------------- |
-| `<ui-button>`     | `variant="primary\|secondary"`, `disabled`               | native `click`                |
-| `<ui-textfield>`  | `label`, `placeholder`, `type`, `value`                  | `input` — `detail.value`      |
-| `<ui-textarea>`   | `label`, `placeholder`, `value`, `rows`                  | `input` — `detail.value`      |
-| `<ui-checkbox>`   | `label`, `checked`                                       | `change` — `detail.checked`   |
-| `<ui-toggle>`     | `label`, `checked`                                       | `change` — `detail.checked`   |
-| `<ui-radio>`      | `name`, `value`, `label`, `checked`                      | `change` — `detail.value`     |
-| `<ui-select>`     | `label`, `options="A,B,C"`, `value`                      | `change` — `detail.value`     |
-| `<ui-badge>`      | `variant="neutral\|primary\|success\|warning\|danger"`   | —                              |
-| `<ui-card>`       | slots: default, `header`, `footer`                       | —                              |
-| `<ui-avatar>`     | `src`, `alt`, `name`, `size`                              | —                              |
-| `<ui-alert>`      | `variant="info\|success\|warning\|danger"`, `dismissible`| `dismiss`                     |
-| `<ui-tooltip>`    | `text`, `position="top\|bottom\|left\|right"`            | —                              |
-| `<ui-spinner>`    | `size`, `label`                                          | —                              |
-| `<ui-progress>`   | `value`, `max`, `label`                                  | —                              |
-| `<ui-tabs>`       | `selected` (index); children use a `label` attribute     | —                              |
+### Actions
+| Element | Attributes | Events |
+| --- | --- | --- |
+| `<ui-button>` | `variant`, `size`, `disabled`, `full`, `type` | native `click` |
+| `<ui-icon-button>` | `label`, `variant`, `size`, `disabled` | native `click` |
+| `<ui-dropdown>` | `label`, `options`, `align`, `disabled` | `select` — `detail.value`, `detail.index` |
 
-Radios sharing the same `name` form a group automatically (only one can be checked). Tabs treat each direct child as a panel — its `label` attribute becomes the tab title.
+### Form controls
+| Element | Attributes | Events |
+| --- | --- | --- |
+| `<ui-textfield>` | `label`, `placeholder`, `type`, `value`, `hint`, `error`, `invalid` | `input` — `detail.value` |
+| `<ui-search-field>` | `placeholder`, `value` | `search` — `detail.query` |
+| `<ui-textarea>` | `label`, `placeholder`, `value`, `rows`, `hint` | `input` — `detail.value` |
+| `<ui-checkbox>` | `label`, `checked` | `change` — `detail.checked` |
+| `<ui-toggle>` | `label`, `checked` | `change` — `detail.checked` |
+| `<ui-radio>` | `name`, `value`, `label`, `checked` | `change` — `detail.value` |
+| `<ui-select>` | `label`, `options`, `value` | `change` — `detail.value` |
+| `<ui-slider>` | `label`, `value`, `min`, `max`, `step` | `input` — `detail.value` |
 
-### Usage
+### Data display
+| Element | Attributes | Events |
+| --- | --- | --- |
+| `<ui-badge>` | `variant`, `size`, `dot` | — |
+| `<ui-chip>` | `variant`, `removable` | `remove` |
+| `<ui-avatar>` | `src`, `alt`, `name`, `size`, `status` | — |
+| `<ui-table>` | `columns`, `rows`, `caption`, `striped`, `compact` | `rowclick` — `detail.index` |
+| `<ui-pagination>` | `page`, `total`, `siblings` | `change` — `detail.page` |
 
-```html
-<script type="module" src="js/main.js"></script>
+### Layout
+| Element | Attributes | Events |
+| --- | --- | --- |
+| `<ui-card>` | `raised`, `flat`, `hoverable`; slots: default, `header`, `footer` | — |
+| `<ui-divider>` | `label`, `vertical` | — |
+| `<ui-tabs>` | `selected`, `variant`; children use `label` | `change` — `detail.index` |
+| `<ui-accordion>` | `label`, `open` | `toggle` — `detail.open` |
+| `<ui-modal>` | `heading`, `open`, `size`; slots: default, `footer` | `close` |
 
-<ui-button variant="primary">Save</ui-button>
+### Feedback
+| Element | Attributes | Events |
+| --- | --- | --- |
+| `<ui-alert>` | `variant`, `title`, `dismissible` | `dismiss` |
+| `<ui-toast>` | `variant`, `message`, `duration`, `position` | `dismiss` |
+| `<ui-tooltip>` | `text`, `position` | — |
+| `<ui-spinner>` | `size`, `label`, `variant` | — |
+| `<ui-progress>` | `value`, `max`, `label`, `variant`, `indeterminate` | — |
+| `<ui-skeleton>` | `width`, `height`, `radius`, `lines`, `circle` | — |
+| `<ui-empty-state>` | `title`, `description`, `icon`; slot = actions | — |
 
-<ui-textfield label="Full name" placeholder="Jane Doe"></ui-textfield>
+Radios sharing a `name` form a group automatically. Tabs treat each direct child as a
+panel — its `label` attribute becomes the tab title.
 
-<ui-checkbox label="Subscribe to updates"></ui-checkbox>
+## Theming
 
-<ui-toggle label="Enable notifications"></ui-toggle>
+Every component reads its values from CSS custom properties on `:root`. Custom
+properties pierce the Shadow DOM boundary, so changing the source once re-themes every
+component without touching component code.
 
-<ui-select label="Favorite color" options="Red,Green,Blue"></ui-select>
-
-<ui-radio name="plan" value="basic" label="Basic" checked></ui-radio>
-<ui-radio name="plan" value="pro" label="Pro"></ui-radio>
-
-<ui-alert variant="success" dismissible>Saved successfully.</ui-alert>
-
-<ui-tabs>
-  <div label="Overview">Overview panel content.</div>
-  <div label="Details">Details panel content.</div>
-</ui-tabs>
-```
-
-```js
-document.querySelector("ui-textfield").addEventListener("input", (e) => {
-  console.log(e.detail.value);
-});
-
-document.querySelector("ui-radio").addEventListener("change", (e) => {
-  console.log(e.detail.value);
-});
-```
-
-### Theming
-
-Every component reads its colors, spacing and border radius from CSS custom properties on `:root`. Custom properties pierce the Shadow DOM boundary, so changing the source once re-themes every component without touching component code.
-
-**Colors** live only in [`tokens/tokens.json`](tokens/tokens.json) — there are no hardcoded color values anywhere else in the project. That file mirrors a real design-token export (e.g. Tokens Studio / Figma Variables), so its keys are camelCase and colors sit under `color.hex`:
+**Everything lives in [`tokens/tokens.json`](tokens/tokens.json)** — there are no
+hardcoded design values anywhere else. The file mirrors a real design-token export
+(Tokens Studio / Figma Variables), so keys are camelCase and grouped by type:
 
 ```json
 {
-  "color": {
-    "hex": {
-      "colorBg": "#ffffff",
-      "colorBgAlt": "#f5f6f8",
-      "colorText": "#1a1d21",
-      "colorTextMuted": "#5b6270",
-      "colorPrimary": "#2f6fed",
-      "colorBorder": "#d7dbe0",
-      "colorFocus": "#2f6fed",
-      "colorScrim": "#0000003f",
-      "colorWarning": "#dc6e00",
-      "colorCritical": "#f93232"
-    }
-  }
+  "color":       { "hex": { "colorPrimary": "#6C43C6", "colorOnSurface": "#161C27" } },
+  "typography":  { "font": { "bodyM": "400 14px/20px var(--font-family-base)" } },
+  "shadow":      { "css": { "elevation2": "0 2px 4px rgba(22, 28, 39, 0.05), …" } },
+  "blur":        { "pX":  { "blurWindow": 40 } },
+  "spacing":     { "pX":  { "spacing5": 16 } },
+  "radius":      { "pX":  { "radiusMd": 12 } },
+  "motion":      { "css": { "durationBase": "200ms" } },
+  "zIndex":      { "n":   { "zModal": 1300 } },
+  "borderWidth": { "pX":  { "borderThin": 1 } },
+  "opacity":     { "n":   { "opacityDisabled": 0.38 } }
 }
 ```
 
-[`js/tokens.js`](js/tokens.js) fetches that file on load, translates each `color.hex` key to this project's `--color-*` naming via `COLOR_TOKEN_MAP` (e.g. `colorCritical` → `--color-danger`), and sets it on `:root`. Keeping that translation table in `tokens.js` means the token source's naming can stay whatever the design tool exports, without renaming component-facing CSS variables to match.
+### What the components read
 
-Two colors the components need — `--color-primary-hover` (button hover) and `--color-success` (badge/alert) — aren't in the current token export. Until the design source adds `colorPrimaryHover` and `colorSuccess`, `tokens.js` derives them itself: `--color-primary-hover` is computed by darkening `colorPrimary` by 15%, and `--color-success` falls back to a hardcoded green (`#1a7f37`). Both are clearly marked in `tokens.js` as stopgaps — replace them by adding the real keys to `tokens/tokens.json` once the design source defines them, and delete the fallback code.
+| Group | CSS properties |
+| --- | --- |
+| Interactive | `--color-primary`, `--color-on-primary`, `--color-primary-container`, and the same four for `secondary`, `tertiary`, `focus` |
+| State | `--color-primary-hover`, `--color-primary-pressed`, `--color-surface-container-hover`, … |
+| Semantic | `--color-error`, `--color-warning`, `--color-success`, each with `on-` and `-container` |
+| Surface | `--color-surface`, `--color-surface-container`, `--color-surface-container-highest`, `--color-surface-blur[-high\|-low]`, `--color-inverse-surface` |
+| Text | `--color-on-surface`, `--color-on-surface-variant`, `--color-on-surface-muted` |
+| Outline & overlay | `--color-outline`, `--color-outline-variant`, `--color-scrim` |
+| Type | `--display-*`, `--headline-*`, `--title-*`, `--label-*`, `--body-*` plus `--tracking-*` |
+| Elevation | `--elevation-1` … `--elevation-5`, `--elevation-bottom`, `--shadow-focus` |
 
-To retheme colors, edit `tokens/tokens.json` only — this is also the file an automated Figma → repo token sync would write to.
-
-**Spacing, radius and font** are plain CSS custom properties in [`css/styles.css`](css/styles.css):
+**Type comes with tracking as a separate property.** The scale specifies letter-spacing
+per style, and a CSS `font:` shorthand cannot carry it, so a component sets both:
 
 ```css
-:root {
-  --radius: 10px;
-}
+font: var(--label-m);
+letter-spacing: var(--tracking-label-m);
 ```
+
+**Light mode only.** The source system publishes light and dark, but this project has no
+mode-switching logic. Carrying both would mean writing one set of properties and leaving
+the other unreachable. The token structure is ready for it: adding `color.light` /
+`color.dark` is additive, since `tokens.js` reads by group path.
+
+**PC type scale only.** The source publishes PC, tablet and mobile. Importing three
+scales would mean choosing between them at render time with nothing to choose on.
+
+### Legacy aliases
+
+`tokens.js` also sets a table of older names (`--color-text`, `--shadow-md`,
+`--text-sm`) as `var()` references to their current equivalents. A component still on
+an old name re-themes correctly instead of silently falling back, and an upstream rename
+is a one-line change rather than a find-and-replace through 28 files.
+
+[`js/tokens.js`](js/tokens.js) fetches that file and applies every group, translating
+each export key to this project's CSS naming through a per-group table. Keeping the
+translation there means the design tool's naming can stay whatever it exports — note
+`colourText` beside `colorBg`, and `colorCritical` → `--color-danger` — without
+renaming component-facing variables to match.
+
+Numbers get their unit at apply time (`spacing5: 16` → `--spacing-5: 16px`), so the
+token file stays a data file rather than a stylesheet.
+
+To retheme, edit `tokens/tokens.json` only. This is also the file an automated
+Figma → repo token sync writes to.
+
+## Conventions
+
+Every component follows the same contract, which is what makes the library machine-readable:
+
+1. **A doc comment with a concrete usage example.** Real values, not placeholders — tooling reads these as sample data.
+2. **`static get observedAttributes()`** declaring every attribute it reads.
+3. **No hardcoded design values.** Every colour, space, radius, shadow and font comes from a custom property, with a `var()` fallback as a last resort rather than a second source of truth.
+4. **Native elements inside.** Components wrap real `<button>`, `<input>`, `<select>` and `<label>` elements, keeping built-in keyboard support and screen-reader semantics.
+5. **Events carry a `detail`** and are `composed`, so they cross the shadow boundary.
 
 ## Browser support
 
-Any evergreen browser (Chrome, Firefox, Safari, Edge) with support for Custom Elements, Shadow DOM and ES modules — all standard, widely supported web platform features.
-
-## License
-
-No license specified. Use at your own discretion.
+Any evergreen browser with Custom Elements, Shadow DOM and ES modules.

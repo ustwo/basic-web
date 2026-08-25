@@ -1,161 +1,101 @@
-/* ---- Design tokens ----
-   Colors are not defined here — js/tokens.js fetches tokens/tokens.json
-   and sets the --color-* custom properties on :root at load time. */
-:root {
-  --radius: 6px;
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 1rem;
-  --spacing-4: 1.5rem;
-  --spacing-5: 2.5rem;
+/**
+ * Page layout only. Every colour, space, radius, elevation and type value comes from
+ * tokens/tokens.json via js/tokens.js, applied to :root at load.
+ *
+ * Nothing here hardcodes a design value: if a custom property is missing, the fallback
+ * in the var() is a deliberate last resort, not a second source of truth.
+ */
 
-  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+/* The typeface itself. @font-face registers at document level, so these faces are
+   available inside every component's shadow root without being repeated there. */
+@font-face {
+  font-family: "Rookery New";
+  src: url("../fonts/Rookery-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rookery New";
+  src: url("../fonts/Rookery-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rookery New";
+  src: url("../fonts/Rookery-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rookery New";
+  src: url("../fonts/Rookery-Italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
 }
 
-/* ---- Reset ---- */
-* {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
+  background: var(--color-surface-container, #f5f3f1);
+  color: var(--color-on-surface, #161c27);
+  font: var(--body-l);
+  letter-spacing: var(--tracking-body-l);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ---- Base ---- */
-body {
-  font-family: var(--font-family);
-  color: var(--color-text);
-  background: var(--color-bg);
-  line-height: 1.5;
-}
+a { color: var(--color-primary); text-decoration: none; }
+a:hover { color: var(--color-primary-hover); text-decoration: underline; }
 
-h1, h2, h3 {
-  line-height: 1.2;
-}
+code { font-family: var(--font-family-mono); font-size: 0.9em; }
 
-a {
-  color: var(--color-primary);
-}
-
-.container {
-  max-width: 960px;
+.page {
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 0 var(--spacing-3);
+  padding: var(--spacing-9) var(--spacing-7) var(--spacing-10);
 }
 
-/* ---- Header ---- */
-.site-header {
-  border-bottom: 1px solid var(--color-border);
-}
+.page-header { display: flex; flex-direction: column; gap: var(--spacing-4); margin-bottom: var(--spacing-9); }
+.page-header h1 { margin: 0; font: var(--display-xs); letter-spacing: var(--tracking-display); }
+.page-header p { margin: 0; color: var(--color-on-surface-variant); font: var(--body-l); letter-spacing: var(--tracking-body-l); max-width: 62ch; }
 
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: var(--spacing-3);
-  padding-bottom: var(--spacing-3);
-}
-
-.logo {
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--color-text);
-}
-
-.site-header nav a {
-  margin-left: var(--spacing-4);
-  text-decoration: none;
-  color: var(--color-text-muted);
-}
-
-.site-header nav a:hover {
-  color: var(--color-text);
-}
-
-/* ---- Hero ---- */
-.hero {
-  padding: var(--spacing-5) 0;
-  text-align: center;
-}
-
-.hero h1 {
-  font-size: 2.25rem;
-  margin-bottom: var(--spacing-3);
-}
-
-.hero p {
-  color: var(--color-text-muted);
-  max-width: 40rem;
-  margin: 0 auto var(--spacing-4);
-}
-
-/* ---- Sections ---- */
 .section {
-  padding: var(--spacing-5) 0;
+  margin-bottom: var(--spacing-7);
+  padding: var(--spacing-7);
+  background: var(--color-surface);
+  border: var(--border-thin) solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-1);
 }
+.section > h2 { margin: 0 0 var(--spacing-5); font: var(--headline-s); }
+.section > p.lead { margin: 0 0 var(--spacing-6); color: var(--color-on-surface-variant); font: var(--body-m); letter-spacing: var(--tracking-body-m); }
 
-.section-alt {
-  background: var(--color-bg-alt);
-}
+.row { display: flex; flex-wrap: wrap; gap: var(--spacing-4); align-items: center; }
+.stack { display: flex; flex-direction: column; gap: var(--spacing-5); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--spacing-5); }
 
-.section-intro {
-  color: var(--color-text-muted);
-  margin-top: 0;
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(184px, 1fr)); gap: var(--spacing-4); }
+.swatch {
+  display: flex; flex-direction: column; gap: var(--spacing-2);
+  padding: var(--spacing-4);
+  border: var(--border-thin) solid var(--color-outline-variant);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
 }
+.swatch i {
+  display: block; height: 44px;
+  border-radius: var(--radius-sm);
+  border: var(--border-thin) solid var(--color-outline-variant);
+}
+.swatch b { font: var(--label-s); letter-spacing: var(--tracking-label-s); }
+.swatch span { color: var(--color-on-surface-muted); font-family: var(--font-family-mono); font-size: 11px; }
 
-/* ---- Component grid ---- */
-.component-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--spacing-4);
-  margin-top: var(--spacing-4);
-}
-
-.component-card {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: var(--spacing-3);
-  background: var(--color-bg);
-}
-
-.component-card h3 {
-  margin-top: 0;
-  margin-bottom: var(--spacing-1);
-}
-
-.component-card code {
-  color: var(--color-text-muted);
-  font-size: 0.85rem;
-}
-
-.component-demo {
-  margin-top: var(--spacing-3);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-2);
-}
-
-/* ---- Demo form ---- */
-.demo-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-3);
-  max-width: 24rem;
-}
-
-.demo-output {
-  margin-top: var(--spacing-4);
-  background: var(--color-text);
-  color: var(--color-bg);
-  padding: var(--spacing-3);
-  border-radius: var(--radius);
-  overflow-x: auto;
-}
-
-/* ---- Footer ---- */
-.site-footer {
-  border-top: 1px solid var(--color-border);
-  padding: var(--spacing-4) 0;
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
-}
+.type-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-5); padding: var(--spacing-3) 0; border-bottom: var(--border-thin) solid var(--color-outline-variant); }
+.type-row:last-child { border-bottom: 0; }
+.type-row span:last-child { color: var(--color-on-surface-muted); font-family: var(--font-family-mono); font-size: 11px; white-space: nowrap; }
