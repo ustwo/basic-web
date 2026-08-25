@@ -122,7 +122,7 @@ Every component reads its colors, spacing and border radius from CSS custom prop
     "hex": {
       "colorBg": "#ffffff",
       "colorBgAlt": "#f5f6f8",
-      "colourText": "#1a1d21",
+      "colorText": "#1a1d21",
       "colorTextMuted": "#5b6270",
       "colorPrimary": "#2f6fed",
       "colorBorder": "#d7dbe0",

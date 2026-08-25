@@ -4,7 +4,7 @@
 const COLOR_TOKEN_MAP = {
   colorBg: "bg",
   colorBgAlt: "bg-alt",
-  colourText: "text",
+  colorText: "text",
   colorTextMuted: "text-muted",
   colorPrimary: "primary",
   colorBorder: "border",

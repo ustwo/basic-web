@@ -78,6 +78,7 @@ class UIToggle extends HTMLElement {
           background: var(--color-border);
           border-radius: 999px;
           transition: background 0.15s ease;
+          pointer-events: none;
         }
         .thumb {
           position: absolute;
@@ -88,6 +89,7 @@ class UIToggle extends HTMLElement {
           background: var(--color-bg);
           border-radius: 50%;
           transition: transform 0.15s ease;
+          pointer-events: none;
         }
         input:checked ~ .track {
           background: var(--color-primary);
